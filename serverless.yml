@@ -13,16 +13,16 @@ plugins:
 provider:
   name: aws
   iamRoleStatements:
-  - Effect: Allow
-    Action:
-      - dynamodb:Scan
-      - dynamodb:Query
-      - dynamodb:GetItem
-      - dynamodb:PutItem
-      - dynamodb:UpdateItem
-      - dynamodb:DeleteItem
-      - dynamodb:DescribeItem
-    Resource: "arn:aws:dynamodb:us-east-1:*:*"
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeItem
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
   runtime: nodejs12.x
   stage: prod
   region: us-east-1
@@ -41,27 +41,32 @@ functions:
       - http:
           path: notes/{id}
           method: delete
+          authorizer: aws_iam
   update:
     handler: update.main
     events:
       - http:
           path: notes/{id}
           method: put
+          authorizer: aws_iam
   list:
     handler: list.main
     events:
       - http:
           path: notes
           method: get
+          authorizer: aws_iam
   get:
     handler: get.main
     events:
       - http:
           path: notes/{id}
           method: get
+          authorizer: aws_iam
   create:
     handler: create.main
     events:
       - http:
           path: notes
           method: post
+          authorizer: aws_iam

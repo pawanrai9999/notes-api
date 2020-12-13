@@ -33,8 +33,16 @@ provider:
   #
   environment:
     tableName: "notes"
+    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
 
 functions:
+  billing:
+    handler: billing.main
+    events:
+      - http:
+          path: billing
+          method: post
+          authorizer: aws_iam
   delete:
     handler: delete.main
     events:
